@@ -141,7 +141,19 @@
         }
     </script>
     <!-- Elfsight Platform Script -->
-    <script src="https://static.elfsight.com/platform/platform.js" async></script>
+    <script>
+    // Lazy load Elfsight only when reviews are requested
+    var elfsightLoaded = false;
+    function loadElfsight() {
+        if (!elfsightLoaded) {
+            var script = document.createElement('script');
+            script.src = 'https://static.elfsight.com/platform/platform.js';
+            script.async = true;
+            document.body.appendChild(script);
+            elfsightLoaded = true;
+        }
+    }
+    </script>
     <style>
         :root {
             --blue: #003087;
@@ -2001,6 +2013,7 @@
     <script>
         
         function toggleReviews(widgetId) {
+            loadElfsight(); // Load Elfsight when user clicks
             var widget = document.getElementById(widgetId);
             var btn = document.querySelector('[onclick="toggleReviews(\'' + widgetId + '\')"]');
             if (widget.classList.contains('active')) {
